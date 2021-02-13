@@ -4,6 +4,13 @@
 
 using namespace std;
 
+enum options {
+	one = 1,
+	two = 2,
+
+	widthLine = 35,
+};
+
 void draw_line(int n) {
 	for (int i = 0; i < n; ++i) {
 		cout << "-";
