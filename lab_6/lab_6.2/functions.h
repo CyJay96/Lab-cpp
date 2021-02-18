@@ -26,4 +26,6 @@ void input(Type& a) {
 }
 
 void create_numbers(ofstream& file, int n);
+void create_numbers_bin(ofstream& file, int n);
 void unsigned_sort(ifstream& file1, ofstream& file2, int n);
+void unsigned_sort_bin(ifstream& file1, ofstream& file2, int n);
