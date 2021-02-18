@@ -22,52 +22,62 @@ int main() {
 	cout << endl;
 
 
-	// text file
-	ofstream write_f("f.txt");
-	if (!write_f) {
+	/* TEXT FILE */
+	ofstream write_file("f.txt");
+	if (!write_file) {
 		cout << "File error" << endl;
 		return 1;
 	}
-	create_numbers(write_f, n);
-	write_f.close();
 
-	ifstream read_f("f.txt");
-	if (!read_f) {
+	create_numbers(write_file, n);
+	write_file.close();
+
+	ifstream read_file("f.txt");
+	if (!read_file) {
 		cout << "File error" << endl;
 		return 2;
 	}
-	ofstream write_g("g.txt");
-	if (!write_g) {
+
+	write_file.clear();
+	write_file.open("g.txt");
+	if (!write_file) {
 		cout << "File error" << endl;
 		return 3;
 	}
-	unsigned_sort(read_f, write_g, n);
-	read_f.close();
-	write_g.close();
+
+	unsigned_sort(read_file, write_file, n);
+	read_file.close();
+	write_file.close();
 
 
-	// binary file
-	ofstream write_f_bin("f.bin", ios::binary);
-	if (!write_f_bin) {
+	/* BINARY FILE */
+	write_file.clear();
+	write_file.open("f.bin", ios::binary);
+	if (!write_file) {
 		cout << "File error" << endl;
 		return 4;
 	}
-	create_numbers(write_f_bin, n);
-	write_f_bin.close();
 
-	ifstream read_f_bin("f.bin", ios::binary);
-	if (!read_f_bin) {
+	create_numbers_bin(write_file, n);
+	write_file.close();
+
+	read_file.clear();
+	read_file.open("f.bin", ios::binary);
+	if (!read_file) {
 		cout << "File error" << endl;
 		return 5;
 	}
-	ofstream write_g_bin("g.bin", ios::binary);
-	if (!write_g_bin) {
+
+	write_file.clear();
+	write_file.open("g.bin", ios::binary);
+	if (!write_file) {
 		cout << "File error" << endl;
 		return 6;
 	}
-	unsigned_sort(read_f_bin, write_g_bin, n);
-	read_f_bin.close();
-	write_g_bin.close();
+
+	unsigned_sort_bin(read_file, write_file, n);
+	read_file.close();
+	write_file.close();
 
 
 	cout << "The text file is ready..." << endl;
