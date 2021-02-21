@@ -2,11 +2,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>
 #include <conio.h>
 
 using namespace std;
-
-const int N = 40;
 
 struct Node {
 	struct Students {
@@ -24,8 +23,12 @@ struct Node {
 
 void writeDate(string date, Node::Students& st);
 string outputDate(Node::Students::DateOfBirth date);
-void fillList(ifstream& file, Node::Students* st);
+void masToList(Node* top, Node::Students*& infoSort);
 
+void fillList(ofstream& file, Node::Students* st, int n);
 int compare_str(Node*& top, Node::Students& info);
 void add(Node*& top, Node::Students& info);
+void del(Node*& top, Node::Students& info);
 void output(Node* top);
+
+int searchOldest(Node::Students* students, Node::Students* studentsOldest, int n);
