@@ -1,18 +1,24 @@
 #include "functions.h"
 
 void writeDate(string date, Node::Students& st) {
+	int i = 0;
+	const char sep1 = '.';
+	const char sep2 = '/';
+
 	string day = "";
-	for (int i = 0; i < 2; ++i) {
-		day += date[i];
+	while (date[i] != sep1 && date[i] != sep2) {
+		day += date[i++];
 	}
+	i++;
 
 	string month = "";
-	for (int i = 3; i < 5; ++i) {
-		month += date[i];
+	while (date[i] != sep1 && date[i] != sep2) {
+		month += date[i++];
 	}
+	i++;
 
 	string year = "";
-	for (int i = 6; i < 10; ++i) {
+	for (i; i < date.length(); ++i) {
 		year += date[i];
 	}
 
@@ -22,23 +28,31 @@ void writeDate(string date, Node::Students& st) {
 }
 
 string outputDate(Node::Students::DateOfBirth date) {
-	return to_string(date.day) + "/" + to_string(date.month) + "/" + to_string(date.year);
+	return to_string(date.day) + "." + to_string(date.month) + "." + to_string(date.year);
 }
 
-void fillList(ifstream& file, Node::Students* st) {
+void masToList(Node* top, Node::Students*& infoSort) {
 	int i = 0;
-	while (!file.eof()) {
+
+	while (top) {
+		infoSort[i++] = top->stud;
+		top = top->link;
+	}
+}
+
+void fillList(ofstream& file, Node::Students* st, int n) {
+	for (int i = 0; i < n; ++i) {
 		string fio = "";
 		string date = "";
 
-		file >> st[i].name;
-		file >> fio; st[i].name += " " + fio;
-		file >> fio; st[i].name += " " + fio;
-		file >> date; writeDate(date, st[i]);
-		file >> st[i].course;
-		file >> st[i].mark;
+		cin >> st[i].name;
+		cin >> fio; st[i].name += " " + fio;
+		cin >> fio; st[i].name += " " + fio;
+		cin >> date; writeDate(date, st[i]);
+		cin >> st[i].course;
+		cin >> st[i].mark;
 
-		i++;
+		file << st[i].name << " " << outputDate(st[i].date) << " " << st[i].course << " " << st[i].mark << endl;
 	}
 }
 
@@ -89,10 +103,68 @@ void add(Node*& top, Node::Students& info) {
 	}
 }
 
+void del(Node*& top, Node::Students& info) {
+	Node* real_el = top;
+	Node* prev = top;
+
+	while (real_el && compare_str(real_el, info) != 0) {
+		prev = real_el;
+		real_el = real_el->link;
+	}
+
+	if (real_el) {
+		if (compare_str(top, info) == 0) {
+			top = top->link;
+		}
+		else {
+			prev->link = real_el->link;
+		}
+		delete real_el;
+	}
+}
+
 void output(Node* top) {
 	int i = 1;
 	while (top) {
-		cout << i++ << ") " << top->stud.name << " " << outputDate(top->stud.date) << " " << top->stud.course << " " << top->stud.mark << endl;
+		cout << i++ << ") " << top->stud.name << " " << outputDate(top->stud.date) << " " <<
+			top->stud.course << " " << top->stud.mark << endl;
 		top = top->link;
 	}
+}
+
+int searchOldest(Node::Students* students, Node::Students* studentsOldest, int n) {
+	const int MIN_COURSE = 1;
+	const int MAX_COURSE = 4;
+
+	time_t days = time(NULL) / (3600 * 24);
+
+	int k_oldest = 0;
+	for (int course = MIN_COURSE; course <= MAX_COURSE; ++course) {
+		int pos_oldest = 0;
+		while (students[pos_oldest].course != course && pos_oldest < n) {
+			pos_oldest++;
+		}
+
+		for (int i = pos_oldest + 1; i < n; ++i) {
+			int ageOldest = days -
+				(students[pos_oldest].date.year * 365 + students[pos_oldest].date.month * 12 + students[pos_oldest].date.day);
+			int age = days - (students[i].date.year * 365 + students[i].date.month * 12 + students[i].date.day);
+
+			if (ageOldest < age && students[i].course == course) {
+				pos_oldest = i;
+			}
+		}
+
+		for (int i = 0; i < n; ++i) {
+			int ageOldest = days -
+				(students[pos_oldest].date.year * 365 + students[pos_oldest].date.month * 12 + students[pos_oldest].date.day);
+			int age = days - (students[i].date.year * 365 + students[i].date.month * 12 + students[i].date.day);
+
+			if (age == ageOldest && students[i].course == course) {
+				studentsOldest[k_oldest++] = students[i];
+			}
+		}
+	}
+
+	return k_oldest;
 }
