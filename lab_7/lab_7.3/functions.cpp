@@ -56,24 +56,6 @@ void fillList(ofstream& file, Node::Students* st, int n) {
 	}
 }
 
-int compare_str(Node*& top, Node::Students& info) {
-	const int SIZE = 50;
-
-	string name_prev_str = top->stud.name;
-	string name_next_str = info.name;
-	char name_prev[SIZE] = { 0 };
-	char name_next[SIZE] = { 0 };
-
-	for (int i = 0; i < name_prev_str.length(); ++i) {
-		name_prev[i] = name_prev_str[i];
-	}
-	for (int i = 0; i < name_next_str.length(); ++i) {
-		name_next[i] = name_next_str[i];
-	}
-
-	return strcmp(name_next, name_prev);
-}
-
 void add(Node*& top, Node::Students& info) {
 	Node* prev = nullptr;
 	Node* next = new Node;
@@ -85,14 +67,14 @@ void add(Node*& top, Node::Students& info) {
 		top = next;
 	}
 	else {
-		if (compare_str(top, info) <= 0) {
+		if (top->stud.name >= info.name) {
 			next->link = top;
 			top = next;
 		}
 		else {
 			Node* real_el = top;
 			prev = top;
-			while (real_el && compare_str(real_el, info) >= 0) {
+			while (real_el && real_el->stud.name <= info.name) {
 				prev = real_el;
 				real_el = real_el->link;
 			}
@@ -104,23 +86,32 @@ void add(Node*& top, Node::Students& info) {
 }
 
 void del(Node*& top, Node::Students& info) {
+	if (!top) {
+		return;
+	}
+
 	Node* real_el = top;
 	Node* prev = top;
 
-	while (real_el && compare_str(real_el, info) != 0) {
+	while (real_el && real_el->stud.name != info.name) {
 		prev = real_el;
 		real_el = real_el->link;
 	}
 
-	if (real_el) {
-		if (compare_str(top, info) == 0) {
-			top = top->link;
-		}
-		else {
-			prev->link = real_el->link;
-		}
-		delete real_el;
+	if (prev == top && top->stud.name == info.name) {
+		top = top->link;
+		delete prev;
+		return;
 	}
+
+	real_el = prev->link;
+	if (!real_el) {
+		return;
+	}
+
+	prev->link = real_el->link;
+
+	delete real_el;
 }
 
 void output(Node* top) {
