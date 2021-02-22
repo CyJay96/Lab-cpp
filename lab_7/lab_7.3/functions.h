@@ -26,7 +26,6 @@ string outputDate(Node::Students::DateOfBirth date);
 void masToList(Node* top, Node::Students*& infoSort);
 
 void fillList(ofstream& file, Node::Students* st, int n);
-int compare_str(Node*& top, Node::Students& info);
 void add(Node*& top, Node::Students& info);
 void del(Node*& top, Node::Students& info);
 void output(Node* top);
