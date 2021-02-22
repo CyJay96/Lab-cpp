@@ -1,8 +1,6 @@
-﻿/*
+/*
 
-Дата сдачи: ...
-
-Дата последнего редактирования: 06.02.2021
+Дата сдачи: 22.02.2021
 
 Выполнить задание, используя динамическое выделение памяти для одномерного массива.
 Дано (в текстовом файле) n >= 10^9 натуральных чисел (каждое число <= 10^4).
@@ -23,18 +21,15 @@ int main() {
 	srand(static_cast<unsigned int>(time(NULL)));
 
 	const int N = 10000; // каждое число <= 10^4
-
-	int size = 0;
-	cout << "Enter a size of array: ";
-	cin >> size;
-
-	int* array = new int[size];
 	int* sort_array = new int[N];
 	for (int i = 0; i < N; ++i) {
 		sort_array[i] = 0;
 	}
 
-	/* СОЗДАНИЕ ФАЙЛА ЧИСЕЛ */
+	int size = 0;
+	cout << "Enter a size of array: ";
+	cin >> size;
+
 	ofstream write_file("numbers.txt");
 	if (!write_file) {
 		cout << "File error" << endl;
@@ -42,48 +37,31 @@ int main() {
 	}
 
 	for (int i = 0; i < size; ++i) {
-		write_file << 1 + rand() % N << endl;
+		int number = 1 + rand() % N;
+		sort_array[number]++;
+		write_file << number << endl;
 	}
 
 	write_file.close();
-	/* КОНЕЦ СОЗДАНИЯ ФАЙЛА ЧИСЕЛ */
 
-	/* ЗАПИСЬ ИЗ ФАЙЛА В МАССИВ */
-	ifstream read_file("numbers.txt");
-	if (!read_file) {
-		cout << "File error" << endl;
-		return 2;
-	}
-
-	for (int i = 0; i < size; ++i) {
-		int element = 0;
-		read_file >> element;
-		sort_array[element]++;
-	}
-
-	read_file.close();
-	/* КОНЕЦ ЗАПИСИ ИЗ ФАЙЛА В МАССИВ */
-
-	/* ЗАПИСЬ МАССИВА В ФАЙЛ */
 	write_file.clear();
 	write_file.open("sort_numbers.txt");
 	if (!write_file) {
 		cout << "File error" << endl;
-		return 3;
+		return 2;
 	}
 
-	for (int i = 0; i < N; ++i) {
+	for (int i = N - 1; i >= 0; --i) {
 		if (sort_array[i] != 0) {
 			write_file << i << endl;
 		}
 	}
 
 	write_file.close();
-	/* КОНЕЦ ЗАПИСИ МАССИВА В ФАЙЛ */
 
 	cout << "Text files are ready..." << endl;
 
-	delete[] array, sort_array;
+	delete[] sort_array;
 
 	cout << endl << "Press any key to continue..." << endl;
 	_getch();
