@@ -14,32 +14,26 @@ void add(Node*& top, Node*& end, double number) {
 		end = new_el;
 	}
 	else {
-		if (top->number >= number - DBL_EPSILON) {
-			new_el->next = top;
-			top->pred = new_el;
-			top = new_el;
+		real = top;
+		pred = top;
+
+		while (real) {
+			pred = real;
+			real = real->next;
+		}
+
+		real = pred->next;
+		new_el->next = real;
+		new_el->pred = pred;
+
+		if (real) {
+			real->pred = new_el;
 		}
 		else {
-			real = top;
-			pred = top;
-
-			while (real && real->number <= number + DBL_EPSILON) {
-				pred = real;
-				real = real->next;
-			}
-
-			real = pred->next;
-			new_el->next = real;
-			new_el->pred = pred;
-
-			if (real) {
-				real->pred = new_el;
-			}
-			else {
-				end = new_el;
-			}
-			pred->next = new_el;
+			end = new_el;
 		}
+
+		pred->next = new_el;
 	}
 }
 
