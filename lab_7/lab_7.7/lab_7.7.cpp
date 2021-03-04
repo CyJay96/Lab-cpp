@@ -1,6 +1,6 @@
-﻿/*
+/*
 
-Дата сдачи: ...
+Дата сдачи: 04.03.2021
 
 По заданной последовательности различных целых чисел построить соответствующее
 бинарное дерево поиска T как динамическую структуру данных.
@@ -35,35 +35,20 @@ int main() {
 	input(top, n);
 	cout << endl;
 
-	cout << "Elements of the tree:" << endl;
-	output(top);
-	cout << endl;
+	cout << "Elements of the tree displayed on the left:" << endl;
+	outputLeft(top);
+	cout << endl << endl;
+
+	cout << "Elements of the tree displayed on the right:" << endl;
+	outputRight(top);
+	cout << endl << endl;
 
 	int k = findLeaves(top);
 	cout << endl << "The number of leaves of the tree: " << k << endl;
 
-	/*int k = 0;
-
-	if (!top->left && !top->right) {
-		k++;
-	}
-
-	Tree* top1 = top->left;
-	Tree* top2 = top->right;
-
-	if (!top1->left && !top1->right) {
-		k++;
-	}
-
-	if (!top2->left && !top2->right) {
-		k++;
-	}
-
-	cout << endl << "k = " << k << endl;*/
-
 	delTree(top);
 
-	cout << endl << "Press any key to continue..." << endl;
+	cout << "Press any key to continue..." << endl;
 	_getch();
 
 	return 0;
