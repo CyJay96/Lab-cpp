@@ -46,11 +46,19 @@ void input(Tree*& top, int n) {
 	}
 }
 
-void output(Tree* top) {
+void outputLeft(Tree* top) {
 	if (top) {
-		output(top->left);
+		outputLeft(top->left);
 		cout << top->data << " ";
-		output(top->right);
+		outputLeft(top->right);
+	}
+}
+
+void outputRight(Tree* top) {
+	if (top) {
+		outputRight(top->right);
+		cout << top->data << " ";
+		outputRight(top->left);
 	}
 }
 
