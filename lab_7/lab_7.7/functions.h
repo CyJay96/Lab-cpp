@@ -32,7 +32,8 @@ void enter(Type& a) {
 Tree* find(Tree* top, int data);
 void add(Tree*& top, int data);
 void input(Tree*& top, int n);
-void output(Tree* top);
+void outputLeft(Tree* top);
+void outputRight(Tree* top);
 void delTree(Tree*& top);
 
 int findLeaves(Tree* top);
