@@ -75,13 +75,13 @@ int main() {
 
 	cout << endl << "Matrix B = (A^2)^T:" << endl;
 
-	/*int* inc = new int[n];
+	int* inc = new int[n];
 	int s = 0;
 	int s_inc = 0;
 	for (int i = 0; i < n; ++i) {
 		s += s_inc++;
 		inc[i] = s;
-	}*/
+	}
 
 	int n_dec = n;
 	for (int i = 0; i < n; ++i) {
