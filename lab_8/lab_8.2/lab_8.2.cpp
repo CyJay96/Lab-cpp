@@ -1,6 +1,6 @@
-﻿/*
+/*
 
-Дата сдачи: ...
+Дата сдачи: 11.03.2021
 
 Объявить класс для решения задачи и определить его методы.
 Реализовать:
@@ -28,7 +28,7 @@ int main() {
 	String s2(20);
 	cin >> s2;
 
-	s1.deletingSymbols(s2);
+	deletingSymbols(s1, s2);
 
 	cout << "The resulting line: " << s1 << endl;
 
