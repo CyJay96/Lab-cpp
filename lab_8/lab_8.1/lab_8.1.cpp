@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Дата сдачи: ...
 
@@ -33,21 +33,20 @@ int main() {
 	const int N = 10;
 	Vector sort_array(N);
 
-	cout << "Enter a size of array: ";
+	cout << "Enter a size of array:" << endl;
+	cout << "N = ";
 	int size = 0;
-	cin >> size;
+	enter(cin, size);
 
 	ofstream write_file("numbers.txt");
 	if (!write_file) {
 		cout << "File error" << endl;
 		return 1;
 	}
-
 	for (int i = 0; i < size; ++i) {
 		int number = rand() % N;
 		write_file << number << endl;
 	}
-
 	write_file.close();
 
 	ifstream read_file("numbers.txt");
@@ -55,24 +54,24 @@ int main() {
 		cout << "File error" << endl;
 		return 2;
 	}
-
 	while (!read_file.eof()) {
 		int number = 0;
 		read_file >> number;
 		sort_array[number]++;
 	}
-
 	read_file.close();
+
+	int sizeRes = createResultSize(sort_array, N);
+	Vector result(sizeRes);
+	createResult(result, sort_array, N);
 
 	write_file.clear();
 	write_file.open("sort_numbers.txt");
 	if (!write_file) {
 		cout << "File error" << endl;
-		return 2;
+		return 3;
 	}
-
-	write_file << sort_array;
-
+	write_file << result;
 	write_file.close();
 
 	cout << endl << "Text files are ready..." << endl;
