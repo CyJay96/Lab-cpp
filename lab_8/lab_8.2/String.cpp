@@ -39,8 +39,12 @@ void String::setSize(int size) {
 	}
 }
 
-int String::getSize() {
+int String::getSize() const {
 	return this->size;
+}
+
+int String::getLen() const {
+	return strlen(this->str);
 }
 
 istream& operator >> (istream& in, String& obj) {
@@ -68,7 +72,17 @@ ostream& operator << (ostream& out, const String& obj) {
 }
 
 char& String::operator [] (int index) {
-	if (index >= 0 && index < this->getSize()) {
+	if (index >= 0 && index < this->getLen()) {
+		return this->str[index];
+	}
+	else {
+		cout << "Going out of the array" << endl;
+		exit(0);
+	}
+}
+
+char& String::operator [] (int index) const {
+	if (index >= 0 && index < this->getLen()) {
 		return this->str[index];
 	}
 	else {
@@ -134,7 +148,7 @@ void String::operator += (const String& obj) {
 	strcat(this->str, obj.str);
 }
 
-void String::delChar(const char ch) {
+void String::delChar(char ch) {
 	for (int i = 0; i < this->getSize(); ++i) {
 		if (this->str[i] == ch) {
 			for (int j = i; j < strlen(this->str); ++j) {
@@ -144,11 +158,11 @@ void String::delChar(const char ch) {
 	}
 }
 
-void String::deletingSymbols(const String& s) {
-	for (int i = 0; i < this->getSize(); ++i) {
-		for (int j = 0; j < s.size; ++j) {
-			if (this->str[i] == s.str[j]) {
-				this->delChar(s.str[j]);
+void deletingSymbols(String& s1, const String& s2) {
+	for (int i = 0; i < s1.getLen(); ++i) {
+		for (int j = 0; j < s2.getLen(); ++j) {
+			if (s1[i] == s2[j]) {
+				s1.delChar(s2[j]);
 			}
 		}
 	}
