@@ -18,30 +18,36 @@ public:
 
 	~Vector();
 
+	friend istream& operator >> (istream& file, Vector& obj);
+	friend ostream& operator << (ostream& file, const Vector& obj);
+
 	int& operator [] (int index);
-
-	friend ifstream& operator >> (ifstream& file, Vector& obj) {
-		while (!file.eof()) {
-			int number = 0;
-			file >> number;
-			obj.arr[number]++;
-		}
-
-		return file;
-	}
-
-	friend ofstream& operator << (ofstream& file, const Vector& obj) {
-		for (int i = obj.size - 1; i >= 0; --i) {
-			if (obj.arr[i] != 0) {
-				file << i << endl;
-			}
-		}
-
-		return file;
-	}
+	int& operator [] (int index) const;
 
 	void setSize(int size);
-	int getSize();
+	int getSize() const;
 
 	void fillRandom(int range);
 };
+
+int createResultSize(const Vector& sort_array, int N);
+void createResult(Vector& result, const Vector& sort_array, int N);
+
+template <class Type>
+void enter(istream& in, Type& a) {
+	while (true) {
+		in >> a;
+
+		if (in.fail()) {
+			in.clear();
+			in.ignore(INT_MAX, '\n');
+
+			cout << "An incorrect value. Please try again:" << endl;
+
+			continue;
+		}
+		else {
+			break;
+		}
+	}
+}
