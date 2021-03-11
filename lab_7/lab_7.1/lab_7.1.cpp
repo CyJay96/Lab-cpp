@@ -44,6 +44,21 @@ int main() {
 
 	write_file.close();
 
+	int sizeRes = 0;
+	for (int i = N - 1; i >= 0; --i) {
+		if (sort_array[i] != 0) {
+			sizeRes++;
+		}
+	}
+
+	int k = 0;
+	int* result = new int[sizeRes];
+	for (int i = N - 1; i >= 0; --i) {
+		if (sort_array[i] != 0) {
+			result[k++] = i;
+		}
+	}
+
 	write_file.clear();
 	write_file.open("sort_numbers.txt");
 	if (!write_file) {
@@ -51,10 +66,8 @@ int main() {
 		return 2;
 	}
 
-	for (int i = N - 1; i >= 0; --i) {
-		if (sort_array[i] != 0) {
-			write_file << i << endl;
-		}
+	for (int i = 0; i < sizeRes; ++i) {
+		write_file << result[i] << endl;
 	}
 
 	write_file.close();
