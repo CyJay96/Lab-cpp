@@ -19,12 +19,14 @@ public:
 	~String();
 
 	void setSize(int size);
-	int getSize();
+	int getSize() const;
+	int getLen() const;
 
 	friend ostream& operator << (ostream& out, const String& obj);
 	friend istream& operator >> (istream& in, String& obj);
 
 	char& operator [] (int index);
+	char& operator [] (int index) const;
 	bool operator == (const String& obj);
 	bool operator > (const String& obj);
 	bool operator < (const String& obj);
@@ -33,8 +35,9 @@ public:
 	void operator += (const String& obj);
 
 	void delChar(const char ch);
-	void deletingSymbols(const String& s);
 };
+
+void deletingSymbols(String& s1, const String& s2);
 
 template <class Type>
 void enter(Type& a) {
