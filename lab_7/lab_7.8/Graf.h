@@ -20,13 +20,13 @@ struct Graf {
 const int MAX_SIZE = 65000;
 
 template <class Type>
-void enter(Type& a) {
+void enter(istream& in, Type& a) {
 	while (true) {
-		cin >> a;
+		in >> a;
 
-		if (cin.fail()) {
-			cin.clear();
-			cin.ignore(INT_MAX, '\n');
+		if (in.fail()) {
+			in.clear();
+			in.ignore(INT_MAX, '\n');
 
 			cout << "An incorrect value. Please try again:" << endl;
 
@@ -37,3 +37,18 @@ void enter(Type& a) {
 		}
 	}
 }
+
+void add(Vertexes*& top, int number);
+void add(Graf*& top, int number);
+void del(Vertexes*& top, int number);
+void del(Graf*& top, int number);
+
+void addConnect(Graf*& top, int n);
+
+void input(Graf*& top, int n);
+void output(Graf* top);
+
+bool checkGraf(Graf* top, int ver1, int ver2);
+
+int searchWay(Graf* top, Vertexes* head, int ver2);
+void oneToOther(Graf* top, int ver1, int ver2);
