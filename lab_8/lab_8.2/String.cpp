@@ -8,8 +8,7 @@ String::String() {
 }
 
 String::String(int size) {
-	this->size < 0 ? this->size = 0 : true;
-	this->setSize(size);
+	size < 0 ? this->size = 0 : this->size = size;
 	this->str = new char[this->getSize() + 1];
 	this->str[0] = '\0';
 }
@@ -107,12 +106,10 @@ String& String::operator = (const String& obj) {
 		this->size = obj.size;
 		this->str = new char[this->getSize() + 1];
 
-		int i = 0;
-		while (i < strlen(obj.str)) {
+		for (int i = 0; i < strlen(obj.str); ++i) {
 			this->str[i] = obj.str[i];
-			i++;
 		}
-		this->str[i] = '\0';
+		this->str[strlen(obj.str)] = '\0';
 	}
 
 	return *this;
@@ -130,12 +127,11 @@ String String::operator + (const String& obj) {
 
 void String::operator += (const String& obj) {
 	char* oldStr = new char[strlen(this->str)];
-	int i = 0;
-	while (i < strlen(this->str)) {
+	for (int i = 0; i < strlen(this->str); ++i) {
 		oldStr[i] = this->str[i];
 		i++;
 	}
-	oldStr[i] = '\0';
+	oldStr[strlen(this->str)] = '\0';
 
 	int newSize = strlen(this->str) + strlen(obj.str);
 	this->setSize(newSize);
