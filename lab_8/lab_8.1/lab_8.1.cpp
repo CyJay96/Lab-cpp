@@ -74,8 +74,6 @@ int main() {
 	write_file << result;
 	write_file.close();
 
-	cout << result;
-
 	cout << endl << "Text files are ready..." << endl;
 
 	cout << endl << "Press any key to continue..." << endl;
