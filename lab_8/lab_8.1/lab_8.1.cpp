@@ -1,6 +1,6 @@
 /*
 
-Дата сдачи: ...
+Дата сдачи: 15.03.2021
 
 Разработать класс «вектор», моделирующий математическое понятие «одномерный массив» произвольного размера с возможностью изменения числа элементов.
 Реализовать три вида конструктора (без аргументов, инициализации, копирования), деструктор.
@@ -30,7 +30,7 @@
 int main() {
 	srand(static_cast<unsigned int>(time(nullptr)));
 
-	const int N = 10;
+	const int N = 10000;
 	Vector sort_array(N);
 
 	cout << "Enter a size of array:" << endl;
@@ -73,6 +73,8 @@ int main() {
 	}
 	write_file << result;
 	write_file.close();
+
+	cout << result;
 
 	cout << endl << "Text files are ready..." << endl;
 
