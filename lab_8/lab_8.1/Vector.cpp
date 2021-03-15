@@ -10,8 +10,7 @@ Vector::Vector() {
 }
 
 Vector::Vector(int size) {
-	this->size < 0 ? this->size = 0 : true;
-	this->setSize(size);
+	size < 0 ? this->size = 0 : this->size = size;
 	this->arr = new int[this->getSize()];
 	for (int i = 0; i < this->getSize(); ++i) {
 		this->arr[i] = 0;
