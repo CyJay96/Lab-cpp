@@ -53,14 +53,7 @@ public:
 
 	T& operator[](int index);
 	T& operator[](int index) const;
-	friend ostream& operator<<(ostream& out, const List& list) {
-		for (int i = 0; i < list.getSize(); ++i) {
-			out << list[i] << " ";
-		}
-		out << endl;
-
-		return out;
-	}
+	List<T>& operator=(const List<T>& list);
 
 	void input(int n);
 	void push_front(T data);
@@ -68,6 +61,7 @@ public:
 	List<T>::Node<T>* search_data(T data);
 	List<T>::Node<T>* search_index(int index);
 	void insert(T data, int index);
+	void remove(T data);
 	void removeAt(int index);
 	void pop_front();
 	void pop_back();
@@ -86,14 +80,14 @@ List<T>::List() {
 	this->end = nullptr;
 }
 
-template<class T>
+template <class T>
 List<T>::List(int size, T data) {
 	for (int i = 0; i < size; ++i) {
 		push_back(data);
 	}
 }
 
-template<class T>
+template <class T>
 List<T>::List(const List<T>& list) {
 	Node<T>* current = list.head;
 	while (current) {
@@ -176,7 +170,22 @@ T& List<T>::operator[](int index) const {
 	exit(0);
 }
 
-template<class T>
+template <class T>
+List<T>& List<T>::operator=(const List<T>& list) {
+	if (&list != this) {
+		clear();
+
+		Node<T>* current = list.head;
+		while (current) {
+			push_back(current->data);
+			current = current->next;
+		}
+	}
+
+	return *this;
+}
+
+template <class T>
 void List<T>::input(int n) {
 	for (int i = 0; i < n; ++i) {
 		T data;
@@ -215,7 +224,7 @@ void List<T>::push_back(T data) {
 	size++;
 }
 
-template<class T>
+template <class T>
 List<T>::Node<T>* List<T>::search_data(T data) {
 	Node<T>* current = head;
 	while (current) {
@@ -229,7 +238,7 @@ List<T>::Node<T>* List<T>::search_data(T data) {
 	exit(0);
 }
 
-template<class T>
+template <class T>
 List<T>::Node<T>* List<T>::search_index(int index) {
 	if (index < 0 || index >= this->size) {
 		cerr << "Index out of range" << endl;
@@ -263,6 +272,17 @@ void List<T>::insert(T data, int index) {
 
 		size++;
 	}
+}
+
+template <class T>
+void List<T>::remove(T data) {
+	Node<T>* toDelete = search_data(data);
+
+	toDelete->pred->next = toDelete->next;
+	toDelete->next->pred = toDelete->pred;
+	delete toDelete;
+
+	size--;
 }
 
 template <class T>
@@ -327,7 +347,7 @@ void List<T>::clear() {
 	}
 }
 
-template<class T>
+template <class T>
 void List<T>::output_start() {
 	Node<T>* current = head;
 	while (current) {
@@ -337,7 +357,7 @@ void List<T>::output_start() {
 	cout << endl;
 }
 
-template<class T>
+template <class T>
 void List<T>::output_end() {
 	Node<T>* current = end;
 	while (current) {
@@ -352,7 +372,7 @@ int List<T>::getSize() const {
 	return this->size;
 }
 
-template<class T>
+template <class T>
 double List<T>::solve() {
 	double res = 1;
 
