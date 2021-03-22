@@ -1,6 +1,6 @@
-﻿/*
+/*
 
-Дата сдачи: ...
+Дата сдачи: 22.03.2021
 
 Объявить шаблон класса «Бинарное дерево». Определить структуру класса и его методы.
 В классе должен быть конструктор по умолчанию, конструктор с формальными параметрами, конструктор копирования и деструктор.
@@ -56,37 +56,6 @@ int main() {
 
 	int k = tree.findLeaves();
 	cout << "The number of leaves of the tree: " << k << endl;
-
-	/**/
-
-	cout << endl << endl;
-
-	int size = 4;
-	Tree<int> t1(size, 8);
-	cout << "tree1 = ";
-	t1.output_left();
-	cout << endl;
-
-	t1.push(2);
-	t1.push(10);
-	t1.push(5);
-
-	Tree<int> t2(t1);
-	cout << "tree2 = ";
-	t2.output_left();
-	cout << endl;
-
-	t2.removeAt(10);
-
-	cout << "tree2 = ";
-	t2.output_left();
-	cout << endl;
-
-	cout << "size = " << t2.getSize() << endl;
-
-	cout << "search = " << t2.search_data(2)->data << endl;
-
-	/**/
 
 	cout << endl << "Press any key to continue..." << endl;
 	_getch();
