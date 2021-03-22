@@ -48,7 +48,6 @@ int main() {
 
 	cout << "L2 list:" << endl;
 	l2.output();
-	cout << endl;
 
 	cout << endl << "Press any key to continue..." << endl;
 	_getch();
