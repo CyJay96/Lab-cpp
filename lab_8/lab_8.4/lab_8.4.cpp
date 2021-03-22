@@ -1,6 +1,6 @@
-﻿/*
+/*
 
-Дата сдачи: ...
+Дата сдачи: 22.03.2021
 
 Объявить шаблон класса «Линейный список». Определить структуру класса и его методы.
 В классе должен быть конструктор по умолчанию, конструктор с формальными параметрами, конструктор копирования и деструктор.
@@ -47,31 +47,8 @@ int main() {
 	l2.createList(l1);
 
 	cout << "L2 list:" << endl;
-	cout << l2 << endl;
-
-	/**/
-
-	int size = 5;
-	List<int> list1(size, 8);
-	cout << "list1 = " << list1 << endl;
-
-	list1.push_back(1);
-	list1.push_front(2);
-
-	int pos = 4;
-	list1.insert(3, pos);
-
-	List<int> list2(list1);
-	cout << "list2 = " << list2 << endl;
-
-	list2.pop_back();
-	list2.pop_front();
-	list2.removeAt(0);
-
-	cout << "list2 = " << list2 << endl;
-	cout << "size = " << list2.getSize() << endl;
-
-	/**/
+	l2.output();
+	cout << endl;
 
 	cout << endl << "Press any key to continue..." << endl;
 	_getch();
