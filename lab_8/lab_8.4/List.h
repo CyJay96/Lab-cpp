@@ -40,6 +40,7 @@ private:
 
 	int size;
 	Node<T>* head;
+	
 public:
 	List();
 	List(int size, T data);
@@ -49,24 +50,20 @@ public:
 
 	T& operator[](int index);
 	T& operator[](int index) const;
-	friend ostream& operator<<(ostream& out, const List& list) {
-		for (int i = 0; i < list.getSize(); ++i) {
-			out << list[i] << " ";
-		}
-		out << endl;
-
-		return out;
-	}
+	List<T>& operator=(const List<T>& list);
 
 	void input(int n);
 	void push_front(T data);
 	void push_back(T data);
-	List<T>::Node<T>* search(int index);
+	List<T>::Node<T>* search_data(T data);
+	List<T>::Node<T>* search_index(int index);
 	void insert(T data, int index);
+	void remove(T data);
 	void removeAt(int index);
 	void pop_front();
 	void pop_back();
 	void clear();
+	void output();
 	int getSize() const;
 
 	bool repeat(Node<T>* current, Node<T>* this_head);
@@ -79,14 +76,14 @@ List<T>::List() {
 	this->head = nullptr;
 }
 
-template<class T>
+template <class T>
 List<T>::List(int size, T data) {
 	for (int i = 0; i < size; ++i) {
 		push_back(data);
 	}
 }
 
-template<class T>
+template <class T>
 List<T>::List(const List<T>& list) {
 	Node<T>* current = list.head;
 	while (current) {
@@ -103,7 +100,7 @@ List<T>::~List() {
 template <class T>
 T& List<T>::operator[](int index) {
 	if (index < 0 || index >= this->size) {
-		cout << "Going out of the array" << endl;
+		cerr << "Index out of range" << endl;
 		exit(0);
 	}
 
@@ -117,14 +114,14 @@ T& List<T>::operator[](int index) {
 		k++;
 	}
 
-	cout << "The specified element wasn't found" << endl;
+	cerr << "The specified element wasn't found" << endl;
 	exit(0);
 }
 
 template <class T>
 T& List<T>::operator[](int index) const {
 	if (index < 0 || index >= this->size) {
-		cout << "Going out of the array" << endl;
+		cerr << "Index out of range" << endl;
 		exit(0);
 	}
 
@@ -138,11 +135,26 @@ T& List<T>::operator[](int index) const {
 		k++;
 	}
 
-	cout << "The specified element wasn't found" << endl;
+	cerr << "The specified element wasn't found" << endl;
 	exit(0);
 }
 
-template<class T>
+template <class T>
+List<T>& List<T>::operator=(const List<T>& list) {
+	if (&list != this) {
+		clear();
+
+		Node<T>* current = list.head;
+		while (current) {
+			push_back(current->data);
+			current = current->next;
+		}
+	}
+
+	return *this;
+}
+
+template <class T>
 void List<T>::input(int n) {
 	for (int i = 0; i < n; ++i) {
 		T data;
@@ -173,8 +185,27 @@ void List<T>::push_back(T data) {
 	size++;
 }
 
-template<class T>
-List<T>::Node<T>* List<T>::search(int index) {
+template <class T>
+List<T>::Node<T>* List<T>::search_data(T data) {
+	Node<T>* current = head;
+	while (current) {
+		if (current->data == data) {
+			return current;
+		}
+		current = current->next;
+	}
+
+	cerr << "The specified element wasn't found" << endl;
+	exit(0);
+}
+
+template <class T>
+List<T>::Node<T>* List<T>::search_index(int index) {
+	if (index < 0 || index >= this->size) {
+		cerr << "Index out of range" << endl;
+		exit(0);
+	}
+
 	Node<T>* current = head;
 	for (int i = 0; i < index; ++i) {
 		current = current->next;
@@ -185,12 +216,16 @@ List<T>::Node<T>* List<T>::search(int index) {
 
 template <class T>
 void List<T>::insert(T data, int index) {
+	if (index < 0 || index >= this->size) {
+		cerr << "Index out of range" << endl;
+		exit(0);
+	}
+
 	if (!index) {
 		push_front(data);
 	}
 	else {
-		Node<T>* pred = search(index - 1);
-
+		Node<T>* pred = search_index(index - 1);
 		pred->next = new Node<T>(data, pred->next);
 
 		size++;
@@ -198,12 +233,32 @@ void List<T>::insert(T data, int index) {
 }
 
 template <class T>
+void List<T>::remove(T data) {
+	Node<T>* toDelete = search_data(data);
+
+	Node<T>* pred = head;
+	while (pred && pred->next->data != toDelete->data) {
+		pred = pred->next;
+	}
+
+	pred->next = toDelete->next;
+	delete toDelete;
+
+	size--;
+}
+
+template <class T>
 void List<T>::removeAt(int index) {
+	if (index < 0 || index >= this->size) {
+		cerr << "Index out of range" << endl;
+		exit(0);
+	}
+
 	if (!index) {
 		pop_front();
 	}
 	else {
-		Node<T>* pred = search(index - 1);
+		Node<T>* pred = search_index(index - 1);
 
 		Node<T>* toDelete = pred->next;
 		pred->next = toDelete->next;
@@ -216,7 +271,7 @@ void List<T>::removeAt(int index) {
 
 template <class T>
 void List<T>::pop_front() {
-	Node<T>* temp = this->head;
+	Node<T>* temp = head;
 	head = head->next;
 	delete temp;
 	size--;
@@ -235,11 +290,21 @@ void List<T>::clear() {
 }
 
 template <class T>
+void List<T>::output() {
+	Node<T>* current = head;
+	while (current) {
+		cout << current->data << " ";
+		current = current->next;
+	}
+	cout << endl;
+}
+
+template <class T>
 int List<T>::getSize() const {
 	return this->size;
 }
 
-template<class T>
+template <class T>
 bool List<T>::repeat(Node<T>* current, Node<T>* this_head) {
 	bool flag = true;
 
@@ -269,7 +334,7 @@ bool List<T>::repeat(Node<T>* current, Node<T>* this_head) {
 	return flag;
 }
 
-template<class T>
+template <class T>
 void List<T>::createList(List<T>& list) {
 	Node<T>* current = list.head;
 	for (int i = 0; i < list.size; ++i) {
