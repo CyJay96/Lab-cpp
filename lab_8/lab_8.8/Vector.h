@@ -1,15 +1,12 @@
 #pragma once
 #include <iostream>
-#include <ctime>
-#include <fstream>
-#include <conio.h>
 
 using namespace std;
 
 template <class T>
-void enter(istream& in, T& data) {
+void enter(istream& in, T& a) {
 	while (true) {
-		in >> data;
+		in >> a;
 
 		if (in.fail()) {
 			in.clear();
@@ -32,58 +29,84 @@ private:
 	T* arr;
 
 	template <class T>
-	friend istream& operator>>(istream& in, Vector<T>& obj);
+	friend istream& operator>>(istream& file, Vector<T>& vctr);
 	template <class T>
-	friend ostream& operator<<(ostream& out, const Vector<T>& obj);
+	friend ostream& operator<<(ostream& file, const Vector<T>& vctr);
 
 public:
 	Vector();
-	Vector(int size);
-	Vector(const Vector& obj);
+	Vector(int size, T data);
+	Vector(const Vector<T>& vctr);
 
 	~Vector();
 
 	T& operator[](int index);
 	T& operator[](int index) const;
-	Vector<T>& operator=(const Vector& obj);
+	Vector<T>& operator=(const Vector& vctr);
 
+	void setSize(int size, T data);
+	int getSize() const;
 	void push_back(T data);
 	void pushAt(int index, T data);
 	void deleteAt(int index);
 	void clear();
-	void setSize(int size);
-	int getSize() const;
-
-	void fillRandom(T min, T max);
 };
 
 template <class T>
 Vector<T>::Vector() {
-	int size = 0;
-	setSize(size);
+	size = 0;
+	arr = nullptr;
 }
 
 template <class T>
-Vector<T>::Vector(int size) {
-	size < 0 ? size = 0, this->size = size : this->size = size;
+Vector<T>::Vector(int size, T data) {
+	try {
+		if (size < 0) {
+			throw size;
+		}
+	}
+	catch (int) {
+		cerr << "SIZE " << size << " IS NOT ALLOWED" << endl;
+		exit(0);
+	}
+
+	this->size = size;
 	arr = new T[size];
 	for (int i = 0; i < size; ++i) {
-		arr[i] = 0;
+		arr[i] = data;
 	}
 }
 
 template <class T>
-Vector<T>::Vector(const Vector& obj) {
-	size = obj.size;
+Vector<T>::Vector(const Vector<T>& vctr) {
+	size = vctr.size;
 	arr = new T[size];
 	for (int i = 0; i < size; ++i) {
-		arr[i] = obj.arr[i];
+		arr[i] = vctr.arr[i];
 	}
 }
 
 template <class T>
 Vector<T>::~Vector() {
 	clear();
+}
+
+template <class T>
+istream& operator>>(istream& in, Vector<T>& vctr) {
+	for (int i = 0; i < vctr.size; ++i) {
+		enter(in, vctr.arr[i]);
+	}
+
+	return in;
+}
+
+template <class T>
+ostream& operator<<(ostream& out, const Vector<T>& vctr) {
+	for (int i = 0; i < vctr.size; ++i) {
+		out << vctr.arr[i] << " ";
+	}
+
+	return out;
 }
 
 template <class T>
@@ -95,7 +118,7 @@ T& Vector<T>::operator[](int index) {
 	}
 	catch (int) {
 		cerr << "INDEX " << index << " IS OUT OF RANGE" << endl;
-		exit(900);
+		exit(0);
 	}
 
 	return arr[index];
@@ -110,42 +133,26 @@ T& Vector<T>::operator[](int index) const {
 	}
 	catch (int) {
 		cerr << "INDEX " << index << " IS OUT OF RANGE" << endl;
-		exit(900);
+		exit(0);
 	}
 
 	return arr[index];
 }
 
 template <class T>
-Vector<T>& Vector<T>::operator=(const Vector& obj) {
-	if (this != &obj) {
-		delete[] arr;
-		size = obj.size;
-		arr = new T[size];
-		for (int i = 0; i < size; ++i) {
-			arr[i] = obj.arr[i];
-		}
+Vector<T>& Vector<T>::operator=(const Vector& vctr) {
+	if (this == &vctr) {
+		return *this;
+	}
+
+	size = vctr.size;
+	delete[] arr;
+	arr = new T[size];
+	for (int i = 0; i < size; ++i) {
+		arr[i] = vctr.arr[i];
 	}
 
 	return *this;
-}
-
-template <class T>
-istream& operator>>(istream& in, Vector<T>& obj) {
-	for (int i = 0; i < obj.size; ++i) {
-		enter(in, obj.arr[i]);
-	}
-
-	return in;
-}
-
-template <class T>
-ostream& operator<<(ostream& out, const Vector<T>& obj) {
-	for (int i = 0; i < obj.size; ++i) {
-		out << obj.arr[i] << " ";
-	}
-
-	return out;
 }
 
 template <class T>
@@ -156,15 +163,37 @@ void Vector<T>::push_back(T data) {
 
 template <class T>
 void Vector<T>::pushAt(int index, T data) {
+	try {
+		if (index < 0 || index > size) {
+			throw index;
+		}
+	}
+	catch (int) {
+		cerr << "INDEX " << index << " IS OUT OF RANGE" << endl;
+		exit(0);
+	}
+
 	setSize(size + 1);
-	for (int i = size - 1; i > index; --i) {
-		arr[i] = arr[i - 1];
+	if (index != size - 1) {
+		for (int i = size - 1; i > index; --i) {
+			arr[i] = arr[i - 1];
+		}
 	}
 	arr[index] = data;
 }
 
 template <class T>
 void Vector<T>::deleteAt(int index) {
+	try {
+		if (index < 0 || index >= size) {
+			throw index;
+		}
+	}
+	catch (int) {
+		cerr << "INDEX " << index << " IS OUT OF RANGE" << endl;
+		exit(0);
+	}
+
 	for (int i = index; i < size - 1; ++i) {
 		arr[i] = arr[i + 1];
 	}
@@ -181,50 +210,33 @@ void Vector<T>::clear() {
 }
 
 template <class T>
-void Vector<T>::setSize(int size) {
-	size < 0 ? size = 0 : true;
-
-	int oldSize = 0;
-	T* buf = nullptr;
-
-	if (this->size) {
-		oldSize = this->size;
-		buf = new T[oldSize];
-		for (int i = 0; i < oldSize; ++i) {
-			buf[i] = arr[i];
+void Vector<T>::setSize(int size, T data) {
+	try {
+		if (size < 0) {
+			throw size;
 		}
 	}
-
-	if (arr) {
-		delete[] arr;
-		arr = nullptr;
+	catch (int) {
+		cerr << "SIZE " << size << " IS NOT ALLOWED" << endl;
+		exit(0);
 	}
 
-	arr = new T[size];
-	this->size = size;
+	T* newVector = new T[size];
 	for (int i = 0; i < size; ++i) {
-		arr[i] = 0;
-	}
-
-	if (buf) {
-		int min_size = (oldSize < size ? oldSize : size);
-		for (int i = 0; i < min_size; ++i) {
-			arr[i] = buf[i];
+		if (i < this->size) {
+			newVector[i] = arr[i];
+		}
+		else {
+			newVector[i] = data;
 		}
 	}
 
-	delete[] buf;
+	this->size = size;
+	delete[] arr;
+	arr = newVector;
 }
 
 template <class T>
 int Vector<T>::getSize() const {
 	return this->size;
-}
-
-template <class T>
-void Vector<T>::fillRandom(T min, T max) {
-	srand(static_cast<unsigned int>(time(nullptr)));
-	for (int i = 0; i < size; ++i) {
-		arr[i] = min + rand() % (max - min + 1);
-	}
 }
