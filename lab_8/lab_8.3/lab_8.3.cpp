@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Дата сдачи: ...
 
@@ -25,43 +25,54 @@
 */
 
 
+#include <iostream>
+#include <conio.h>
 #include "Number.h"
 
-void multi(int* num, int degree) {
-	num[0] = 1;
-	num[1] = 1;
-
-	for (int p = 0; p < degree; ++p) {
-		int b = 0;
-
-		for (int i = 1; i <= num[0]; ++i) {
-			b += num[i] * 3;
-			num[i] = b % 10;
-			b /= 10;
-		}
-
-		if (b != 0) {
-			num[0]++;
-			num[num[0]] = b;
-		}
-	}
-}
-
-void output(int* num) {
-	for (int i = num[0]; i >= 1; --i) {
-		cout << num[i];
-	}
-	cout << endl;
-}
+using namespace std;
 
 int main() {
-	int* num = new int[100];
-	multi(num, 12);
-	output(num);
-	delete[] num;
+	Number three = 3;
+	Number mThree = -3;
 
-	Number a;
-	cin >> a;
+	Number a = three ^ 12;
+	Number b = mThree ^ 11;
+	Number c = three ^ 10;
+	Number d = mThree ^ 9;
+
+	Number result = a + b + c + d;
+
+	cout << "3^12 + (-3)^11 + 3^10 + (-3)^9 = " << result << endl;
+
+
+	/**/
+
+	cout << endl << endl;
+
+	cout << "a = " << a << endl;
+	cout << "b = " << b << endl;
+	cout << "C = " << c << endl;
+	cout << "d = " << d << endl;
+
+	cout << endl << endl;
+
+	Number num1 = 45;
+	Number num2 = 19;
+	Number num3 = num1 + num2;
+	cout << num3 << endl << endl;
+
+	Number n1 = 12;
+	Number n2 = -6;
+	Number n3 = n1 * n2;
+	cout << n3 << endl << endl;
+
+	Number m1 = -2;
+	Number m2 = 3;
+	Number m3 = m1 ^ m2;
+	cout << m3 << endl;
+
+	/**/
+
 
 	cout << endl << "Press any key to continue..." << endl;
 	_getch();
