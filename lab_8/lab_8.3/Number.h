@@ -1,37 +1,10 @@
 #pragma once
 #include <iostream>
-#include <ctime>
-#include <fstream>
-#include <conio.h>
 
 using namespace std;
 
-class Number {
-private:
-	int size;
-	int* arr;
-
-public:
-	Number();
-	Number(int size);
-	Number(const Number& obj);
-
-	~Number();
-
-	friend istream& operator >> (istream& stream, Number& obj);
-	friend ostream& operator << (ostream& stream, const Number& obj);
-
-	int& operator [] (int index);
-	int& operator [] (int index) const;
-
-	void setDigits(int number);
-
-	void setSize(int size);
-	int getSize() const;
-};
-
-template <class Type>
-void enter(istream& in, Type& a) {
+template <class T>
+void enter(istream& in, T& a) {
 	while (true) {
 		in >> a;
 
@@ -48,3 +21,58 @@ void enter(istream& in, Type& a) {
 		}
 	}
 }
+
+class Number {
+private:
+	static const int bits = 64;
+	bool sign;
+
+	int size;
+	int num[bits];
+
+	friend istream& operator>>(istream& out, Number& number);
+	friend ostream& operator<<(ostream& out, const Number& number);
+
+public:
+	Number();
+	Number(int decData);
+	Number(const Number& number);
+
+	~Number();
+
+	int& operator[](int index);
+	int operator[](int index) const;
+
+	Number& operator=(const Number& number);
+	Number& operator=(int decData);
+
+	Number operator+(const Number& number);
+	Number operator*(const Number& number);
+	Number operator^(const Number& power);
+	Number operator^(int power);
+
+	Number& operator+=(const Number& number);
+	Number& operator*=(const Number& number);
+	Number& operator^=(const Number& power);
+	Number& operator^=(int power);
+
+	bool operator==(const Number& number);
+	bool operator==(int number);
+	bool operator!=(const Number& number);
+	bool operator!=(int number);
+
+	void decToBin(int data);
+	int binToDec() const;
+
+	void printBinary();
+	void reverse();
+	Number shift(int k);
+	void optimizeSize();
+
+	void setSize(int binSize);
+	int getSize(int data);
+	int getSizeDec();
+	int getSizeBin() const;
+	bool getSign() const;
+	void clear();
+};
