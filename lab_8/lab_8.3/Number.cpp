@@ -1,20 +1,22 @@
 #include "Number.h"
 
 Number::Number() {
-	sign = true;
 	clear();
 }
 
 Number::Number(int decData) {
 	clear();
-	sign = decData >= 0 ? true : false;
 	decToBin(decData);
 }
 
-Number::Number(const Number& number) {
+Number::Number(string binData) {
 	clear();
-	sign = number.sign;
-	size = number.size;
+	for (int i = 0; i < binData.size(); ++i) {
+		num[i] = binData[binData.size() - i - 1] - 48;
+	}
+}
+
+Number::Number(const Number& number) {
 	for (int i = 0; i < size; ++i) {
 		num[i] = number.num[i];
 	}
@@ -25,11 +27,10 @@ Number::~Number() {
 }
 
 istream& operator>>(istream& in, Number& number) {
-	int decData = 0;
+	long long decData = 0;
 	enter(in, decData);
 
 	number.clear();
-	number.sign = decData >= 0 ? true : false;
 	number.decToBin(decData);
 
 	return in;
@@ -40,7 +41,7 @@ ostream& operator<<(ostream& out, const Number& number) {
 	return out;
 }
 
-int& Number::operator[](int index) {
+bool& Number::operator[](int index) {
 	try {
 		if (index < 0 || index >= size) {
 			throw index;
@@ -54,7 +55,7 @@ int& Number::operator[](int index) {
 	return num[index];
 }
 
-int Number::operator[](int index) const {
+bool Number::operator[](int index) const {
 	try {
 		if (index < 0 || index >= size) {
 			throw index;
@@ -73,9 +74,6 @@ Number& Number::operator=(const Number& number) {
 		return *this;
 	}
 
-	clear();
-	sign = number.sign;
-	size = number.size;
 	for (int i = 0; i < size; ++i) {
 		num[i] = number[i];
 	}
@@ -83,24 +81,26 @@ Number& Number::operator=(const Number& number) {
 	return *this;
 }
 
-Number& Number::operator=(int decData) {
+Number& Number::operator=(long long decData) {
 	clear();
-	sign = decData >= 0 ? true : false;
 	decToBin(decData);
+	return *this;
+}
+
+Number& Number::operator=(string binData) {
+	clear();
+	for (int i = 0; i < binData.size(); ++i) {
+		num[i] = binData[binData.size() - i - 1] - 48;
+	}
 	return *this;
 }
 
 Number Number::operator+(const Number& number) {
 	Number result;
 
-	if (size == 0 && number.size == 0) {
-		return result;
-	}
-
-	result.size = size > number.size ? size : number.size;
 	int memory = 0;
 
-	for (int i = 0; i < result.size; ++i) {
+	for (int i = 0; i < size; ++i) {
 		int res = num[i] + number.num[i] + memory;
 		if (res <= 1) {
 			result[i] = res;
@@ -110,14 +110,6 @@ Number Number::operator+(const Number& number) {
 			result[i] = res % 2;
 			memory = 1;
 		}
-
-		if (memory == 1 && i == result.size - 1) {
-			result += 1;
-		}
-	}
-
-	if (result[result.size - 1]) {
-		result.sign = false;
 	}
 
 	return result;
@@ -126,38 +118,12 @@ Number Number::operator+(const Number& number) {
 Number Number::operator*(const Number& number) {
 	Number result;
 
-	if (size == 0 || number.size == 0) {
-		return result;
-	}
-
-	Number this_num(*this);
-	Number number_num(number);
-	if (!this_num.sign) {
-		this_num.sign = true;
-		this_num.reverse();
-	}
-	if (!number_num.sign) {
-		number_num.sign = true;
-		number_num.reverse();
-	}
-
-	for (int i = 0; i < number_num.size; ++i) {
-		if (number_num[i] == 1) {
-			Number temp(this_num);
+	for (int i = 0; i < size; ++i) {
+		if (number[i] == 1) {
+			Number temp(*this);
 			temp = temp.shift(i);
 			result += temp;
 		}
-	}
-	
-	while (!result[result.size - 1] && result.size > 0) {
-		result.size--;
-	}
-
-	result.optimizeSize();
-
-	result.sign = sign && number.sign || !sign && !number.sign;
-	if (!result.sign) {
-		result.reverse();
 	}
 
 	return result;
@@ -214,31 +180,8 @@ Number& Number::operator^=(int power) {
 	return *this;
 }
 
-bool Number::operator==(const Number& number) {
-	for (int i = 0; i < Number::bits; ++i) {
-		if (num[i] != number.num[i]) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool Number::operator==(int number) {
-	int decData = binToDec();
-	return decData == number;
-}
-
-bool Number::operator!=(const Number& number) {
-	return !(*this == number);
-}
-
-bool Number::operator!=(int number) {
-	return !(*this == number);
-}
-
-void Number::decToBin(int data) {
-	int absData = abs(data);
+void Number::decToBin(long long data) {
+	long long absData = abs(data);
 
 	int i = 0;
 	while (absData) {
@@ -249,13 +192,10 @@ void Number::decToBin(int data) {
 			num[i] = 1;
 		}
 		absData /= 2;
-		size++;
 		i++;
 	}
 
-	optimizeSize();
-
-	if (!sign) {
+	if (data < 0) {
 		reverse();
 	}
 }
@@ -263,17 +203,21 @@ void Number::decToBin(int data) {
 int Number::binToDec() const {
 	Number copy_num(*this);
 
-	int decData = 0;
+	long long decData = 0;
+	bool sign = true;
 
-	if (!copy_num.sign) {
+	if (copy_num[size - 1]) {
 		copy_num.reverse();
+		sign = false;
 	}
 
+	long long p = 1;
 	for (int i = 0; i < size; ++i) {
-		decData += copy_num[i] * pow(2, i);
+		decData += copy_num[i] * p;
+		p *= 2;
 	}
 
-	return copy_num.sign ? decData : -decData;
+	return sign ? decData : -decData;
 }
 
 void Number::printBinary() {
@@ -300,79 +244,21 @@ void Number::reverse() {
 	for (int i = 0; i < size; ++i) {
 		num[i] = !num[i];
 	}
+	*this += 1;
 }
 
 Number Number::shift(int k) {
 	Number result;
-	result.size = size + k;
 
-	for (int i = 0; i < size; ++i) {
+	for (int i = 0; i + k < size; ++i) {
 		result[i + k] = num[i];
 	}
 
 	return result;
 }
 
-void Number::optimizeSize() {
-	int byte = 8;
-	int diffBits = byte - size % byte;
-	size += diffBits;
-}
-
 void Number::clear() {
-	size = 0;
-	for (int i = 0; i < Number::bits; ++i) {
+	for (int i = 0; i < size; ++i) {
 		num[i] = 0;
 	}
-}
-
-void Number::setSize(int binSize) {
-	try {
-		if (binSize < 0) {
-			throw binSize;
-		}
-	}
-	catch (int) {
-		cerr << "SIZE " << binSize << " IS NOT ALLOWED" << endl;
-		exit(0);
-	}
-
-	if (this->size > binSize) {
-		for (int i = binSize; i < Number::bits; ++i) {
-			num[i] = 0;
-		}
-	}
-	this->size = binSize;
-}
-
-int Number::getSize(int data) {
-	int size = 0;
-	while (data) {
-		size++;
-		data /= 10;
-	}
-
-	try {
-		if (size < 0 || size > Number::bits) {
-			throw size;
-		}
-	}
-	catch (int) {
-		cerr << "SIZE " << size << " IS NOT ALLOWED" << endl;
-		exit(0);
-	}
-
-	return size;
-}
-
-int Number::getSizeDec() {
-	return getSize(binToDec());
-}
-
-int Number::getSizeBin() const {
-	return size;
-}
-
-bool Number::getSign() const {
-	return sign;
 }
