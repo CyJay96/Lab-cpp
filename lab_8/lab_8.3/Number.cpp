@@ -4,7 +4,7 @@ Number::Number() {
 	clear();
 }
 
-Number::Number(int decData) {
+Number::Number(long long decData) {
 	clear();
 	decToBin(decData);
 }
@@ -200,24 +200,17 @@ void Number::decToBin(long long data) {
 	}
 }
 
-int Number::binToDec() const {
-	Number copy_num(*this);
-
+long long Number::binToDec() const {
 	long long decData = 0;
-	bool sign = true;
 
-	if (copy_num[size - 1]) {
-		copy_num.reverse();
-		sign = false;
+	long long power = 1;
+	for (int i = 0; i < size - 1; ++i) {
+		decData += (*this)[i] * power;
+		power *= 2;
 	}
+	decData -= (*this)[size - 1] * power;
 
-	long long p = 1;
-	for (int i = 0; i < size; ++i) {
-		decData += copy_num[i] * p;
-		p *= 2;
-	}
-
-	return sign ? decData : -decData;
+	return decData;
 }
 
 void Number::printBinary() {
