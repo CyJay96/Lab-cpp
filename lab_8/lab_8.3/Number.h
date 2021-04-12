@@ -24,11 +24,8 @@ void enter(istream& in, T& a) {
 
 class Number {
 private:
-	static const int bits = 64;
-	bool sign;
-
-	int size;
-	int num[bits];
+	static const int size = 64;
+	bool num[size];
 
 	friend istream& operator>>(istream& out, Number& number);
 	friend ostream& operator<<(ostream& out, const Number& number);
@@ -36,15 +33,17 @@ private:
 public:
 	Number();
 	Number(int decData);
+	Number(string binData);
 	Number(const Number& number);
 
 	~Number();
 
-	int& operator[](int index);
-	int operator[](int index) const;
+	bool& operator[](int index);
+	bool operator[](int index) const;
 
 	Number& operator=(const Number& number);
-	Number& operator=(int decData);
+	Number& operator=(long long decData);
+	Number& operator=(string binData);
 
 	Number operator+(const Number& number);
 	Number operator*(const Number& number);
@@ -56,23 +55,11 @@ public:
 	Number& operator^=(const Number& power);
 	Number& operator^=(int power);
 
-	bool operator==(const Number& number);
-	bool operator==(int number);
-	bool operator!=(const Number& number);
-	bool operator!=(int number);
-
-	void decToBin(int data);
+	void decToBin(long long data);
 	int binToDec() const;
 
 	void printBinary();
 	void reverse();
 	Number shift(int k);
-	void optimizeSize();
-
-	void setSize(int binSize);
-	int getSize(int data);
-	int getSizeDec();
-	int getSizeBin() const;
-	bool getSign() const;
 	void clear();
 };
