@@ -32,7 +32,7 @@ private:
 
 public:
 	Number();
-	Number(int decData);
+	Number(long long decData);
 	Number(string binData);
 	Number(const Number& number);
 
@@ -56,7 +56,7 @@ public:
 	Number& operator^=(int power);
 
 	void decToBin(long long data);
-	int binToDec() const;
+	long long binToDec() const;
 
 	void printBinary();
 	void reverse();
