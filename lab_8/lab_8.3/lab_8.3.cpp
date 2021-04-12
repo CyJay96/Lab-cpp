@@ -1,6 +1,6 @@
 /*
 
-Дата сдачи: ...
+Дата сдачи: 12.04.2021
 
 Объявить класс «многоразрядное целое число». Количество разрядов числа хранить в поле класса,
 значения разрядов числа хранить в динамической памяти, основание системы счисления задавать константой.
@@ -43,36 +43,6 @@ int main() {
 	Number result = a + b + c + d;
 
 	cout << "3^12 + (-3)^11 + 3^10 + (-3)^9 = " << result << endl;
-
-
-	/**/
-
-	cout << endl << endl;
-
-	cout << "a = " << a << endl;
-	cout << "b = " << b << endl;
-	cout << "C = " << c << endl;
-	cout << "d = " << d << endl;
-
-	cout << endl << endl;
-
-	Number num1 = 45;
-	Number num2 = 19;
-	Number num3 = num1 + num2;
-	cout << num3 << endl << endl;
-
-	Number n1 = 12;
-	Number n2 = -6;
-	Number n3 = n1 * n2;
-	cout << n3 << endl << endl;
-
-	Number m1 = -2;
-	Number m2 = 3;
-	Number m3 = m1 ^ m2;
-	cout << m3 << endl;
-
-	/**/
-
 
 	cout << endl << "Press any key to continue..." << endl;
 	_getch();
