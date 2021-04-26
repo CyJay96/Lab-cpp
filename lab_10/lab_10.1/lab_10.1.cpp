@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Дата сдачи: 19.04.2021
 
@@ -48,8 +48,8 @@
 #include "GameObject.h"
 #include "Stone.h"
 #include "Chest.h"
-#include "Civilian.h"
 #include "Merchant.h"
+#include "Civilian.h"
 #include "Player.h"
 
 using namespace std;
@@ -61,8 +61,8 @@ int main() {
 
 	gameObject[0] = new Stone(21, 15, 1, 4, 0);
 	gameObject[1] = new Chest(12, 24, 4, 6, 114);
-	gameObject[2] = new Civilian(36, 28, "Kirill");
 	gameObject[3] = new Merchant(36, 28, "Toha", 5);
+	gameObject[2] = new Civilian(36, 28, "Kirill");
 	gameObject[4] = new Player(38, 30, "Danila", "Black");
 
 	for (int i = 0; i < n; ++i) {
