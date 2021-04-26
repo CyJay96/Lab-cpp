@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string>
 #include <fstream>
 
 using namespace std;
@@ -13,6 +14,8 @@ protected:
 public:
 	GameObject();
 	GameObject(int x, int y);
+
+	virtual ~GameObject() = default;
 
 	void setX(int x);
 	void setY(int y);
