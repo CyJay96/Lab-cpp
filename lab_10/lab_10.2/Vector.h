@@ -2,8 +2,8 @@
 #include "GameObject.h"
 #include "Stone.h"
 #include "Chest.h"
-#include "Civilian.h"
 #include "Merchant.h"
+#include "Civilian.h"
 #include "Player.h"
 
 class Vector {
@@ -151,8 +151,8 @@ void Vector::input(int size) {
 		cout << "Enter the type of the object " << i + 1 << ":" << endl;
 		cout << " 1. Stone" << endl;
 		cout << " 2. Chest" << endl;
-		cout << " 3. Civilian" << endl;
-		cout << " 4. Merchant" << endl;
+		cout << " 3. Merchant" << endl;
+		cout << " 4. Civilian" << endl;
 		cout << " 5. Player" << endl;
 
 		int x = 0, y = 0;
@@ -183,12 +183,13 @@ void Vector::input(int size) {
 			break;
 		case 3:
 			cout << "Enter the name: "; cin >> name;
-			arr[i] = new Civilian(x, y, name);
+			cout << "Enter code of type: "; cin >> codeType;
+			arr[i] = new Merchant(x, y, name, codeType);
+			
 			break;
 		case 4:
 			cout << "Enter the name: "; cin >> name;
-			cout << "Enter code of type: "; cin >> codeType;
-			arr[i] = new Merchant(x, y, name, codeType);
+			arr[i] = new Civilian(x, y, name);
 			break;
 		case 5:
 			cout << "Enter the name: "; cin >> name;
