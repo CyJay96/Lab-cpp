@@ -5,7 +5,7 @@ class Civilian : public AnimateObject {
 public:
 	Civilian();
 	Civilian(int x, int y, string name);
-	Civilian(const Civilian& merchant);
+	Civilian(const Civilian& civilian);
 
 	~Civilian();
 
@@ -24,10 +24,10 @@ Civilian::Civilian(int x, int y, string name) {
 	setName(name);
 }
 
-Civilian::Civilian(const Civilian& merchant) {
-	x = merchant.x;
-	y = merchant.y;
-	setName(merchant.name);
+Civilian::Civilian(const Civilian& civilian) {
+	x = civilian.x;
+	y = civilian.y;
+	setName(civilian.name);
 }
 
 Civilian::~Civilian() {
