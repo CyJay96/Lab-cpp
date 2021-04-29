@@ -79,7 +79,7 @@ int searchOldest(Info* students, Info* oldest_stud, int n) {
 	int k_oldest = 0;
 	for (int course = MIN_COURSE; course <= MAX_COURSE; ++course) {
 		int pos_oldest = 0;
-		while (students[pos_oldest].course != course) {
+		while (pos_oldest < n && students[pos_oldest].course != course) {
 			pos_oldest++;
 		}
 
