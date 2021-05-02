@@ -1,9 +1,9 @@
-﻿/*
+/*
 
-Дата сдачи: ...
+Дата сдачи: 22.03.2021
 
 Объявить шаблон класса «Двусвязный линейный список». Определить структуру класса и его методы.
-В классе должен быть конструктор по умолча-нию, конструктор с формальными параметрами, конструктор копирования и де-структор.
+В классе должен быть конструктор по умолчанию, конструктор с формальными параметрами, конструктор копирования и деструктор.
 Определить методы:
 1) инициализация первого элемента структуры;
 2) запись в структуру нового элемента;
@@ -47,45 +47,6 @@ int main() {
 
 	cout << endl << "Result of the expression:" << endl;
 	cout << "(x[1] + x[n]) * (x[2] + x[n-1]) * ... * (x[n] + x[1]) = " << res << endl;
-
-	/**/
-
-	cout << endl << endl;
-
-	int size = 5;
-	List<int> list1(size, 8);
-	cout << "list1 = ";
-	list1.output_start();
-	cout << endl;
-
-	list1.push_back(1);
-	list1.push_front(2);
-
-	int pos = 4;
-	list1.insert(3, pos);
-
-	List<int> list2(list1);
-	cout << "list2 (start) = ";
-	list2.output_start();
-	cout << endl;
-
-	cout << "list2 (end) = ";
-	list2.output_end();
-	cout << endl;
-
-	list2.pop_back();
-	list2.pop_front();
-	list2.removeAt(0);
-
-	cout << "list2 = ";
-	list2.output_start();
-	cout << endl;
-
-	cout << "size = " << list2.getSize() << endl;
-
-	cout << "search = " << list2.search_data(3)->data << endl;
-
-	/**/
 
 	cout << endl << "Press any key to continue..." << endl;
 	_getch();
