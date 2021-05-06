@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Дата сдачи: 25.03.2021
 
@@ -29,7 +29,7 @@
 const int MAX_SIZE = 65000;
 
 int main() {
-	cout << "Enter the number of tree elements:" << endl;
+	cout << "Enter the number of graph's elements:" << endl;
 	cout << "N = ";
 	int n = 0;
 	enter(cin, n);
