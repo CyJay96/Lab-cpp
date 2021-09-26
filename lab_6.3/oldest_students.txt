@@ -1,0 +1,6 @@
+Petkevich Karina Anatolyevna 19 female 1 7.9
+Kotlerchuk Irina Vladimirovna 19 female 1 7.4
+Lashkevich Yulia Sergeevna 20 female 2 9.3
+Voroshkevich Serafim Vladimirovich 21 male 3 8.5
+Kostyukevich Daniil Vladimirovich 21 male 3 9.2
+Kulinkovich Boris Alekseevich 22 male 4 9
